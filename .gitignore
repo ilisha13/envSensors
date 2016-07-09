@@ -44,3 +44,5 @@ Thumbs.db
 *.cache
 /sensorNode/nodeSensor.sln
 *.lnk
+*.sln
+
