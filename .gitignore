@@ -43,3 +43,4 @@ Thumbs.db
 *.njsproj
 *.cache
 /sensorNode/nodeSensor.sln
+*.lnk
