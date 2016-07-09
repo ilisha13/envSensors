@@ -1,0 +1,2 @@
+D:\projects\envSensors\sensorNode\obj\Debug\nodeSensor.njsprojResolveAssemblyReference.cache
+D:\projects\envSensors\sensorNode\bin\Microsoft.NodejsTools.WebRole.dll

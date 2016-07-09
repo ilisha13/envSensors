@@ -38,3 +38,8 @@ Thumbs.db
 *.suo
 *.pyproj
 /pythonPC/pythonPC.sln
+/sensorNode/node_modules
+/sensorNode/typings
+*.njsproj
+*.cache
+/sensorNode/nodeSensor.sln
