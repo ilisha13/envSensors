@@ -45,3 +45,6 @@ Thumbs.db
 /sensorNode/nodeSensor.sln
 *.sln
 /desktop.ini
+
+*.lnk
+*.sln
