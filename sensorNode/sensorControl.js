@@ -35,8 +35,10 @@ var app = express();
 /************************************** helloWorld sample **************************************/
 //This is just a tester function when nothing else is called 
 
+
 app.get('/', function (req, res) {
-  res.send('Hello! Welcome to the Intel Edison Environmental Sensing Unit');
+	var input = req.query.input;
+  	res.send('Hello, this is what you have typed: ' + input);
 });
 
 /************************************** readTemperature **************************************/

@@ -4,7 +4,7 @@
 import socket
 
 print ('-----------------------------------------------')
-print ('|           Python UDP Listener                |')
+print ('|           Python UDP Listener               |')
 print ('-----------------------------------------------')            
 
 # Open the socket and set it to UDP
