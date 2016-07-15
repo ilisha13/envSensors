@@ -82,18 +82,17 @@ app.get('/getPirMotion', sensorFunctions.getPirMotion);
 
 /************************************* Rotary Encoder ************************************/
 /* API Name                : getRotaryEncoder
- * Parameters required     : units (celsius or fahrenheit) & aioPin 
+ * Parameters required     : digitalPin1 & digitalPin2 (look at the small pins)
  * Example URL             : http://localhost:3000/getTemperature?units="celsius"&aioPin=0
- * Expected Output         : 32
+ * Expected Output         : rotary position
  */
-//app.get('/getRotaryEncoder', sensorFunctions.getrotaryEncoder);
+app.get('/getRotary', sensorFunctions.getRotaryEncoder);
 
 /**************************************** Button  ****************************************/
 /* API Name                : getButtonLevel
- * Parameters required     : output (either or value of the button)digitalPin 
- * Example URL             : http://localhost:3000/getButtonLevel?output=name&digitalPin=3
-                             http://localhost:3000/getButtonLevel?output=value&digitalPin=3
- * Expected Output         : button or 1/0  
+ * Parameters required     : digitalPin 
+ * Example URL             : http://localhost:3000/getButtonLevel?digitalPin=3
+ * Expected Output         : 1 or 0 
  */
 app.get('/getButtonLevel', sensorFunctions.buttonLevel);
 
@@ -149,7 +148,7 @@ app.get('/setServo', actuatorFunctions.setServo);
 /*__
 _________________________________________________________________________________
   _____________________________________________________________________________________
-										 Robotics  
+										  Robotics  
   _____________________________________________________________________________________
   _____________________________________________________________________________________   */
 
@@ -158,7 +157,7 @@ app.get('/robotFunc2', roboticsFunction.robotFunc2);
 
 /*_____________________________________________________________________________________
   _____________________________________________________________________________________
-                     Camera   
+                                            Camera   
   _____________________________________________________________________________________
   _____________________________________________________________________________________   */
 

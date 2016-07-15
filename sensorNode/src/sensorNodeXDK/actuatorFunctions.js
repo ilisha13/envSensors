@@ -42,7 +42,7 @@ function LCDScreen(req, res) {
  };
 
 
-/************************************** setRelayOn **************************************/
+/************************************** relay **************************************/
 /*
 For more information, please visit: 
 https://software.intel.com/en-us/iot/hardware/sensors/grove-relay
@@ -83,7 +83,6 @@ function buzzer(req, res) {
 
     if (state == 'on'){
         myBuzzer.playSound(note,0);
-        
 		res.send("Buzzer is on and is playng note " + tone);
 	}
 	else if (state == 'off'){

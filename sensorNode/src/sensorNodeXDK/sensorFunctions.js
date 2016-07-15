@@ -14,7 +14,7 @@ var groveSensor = require('jsupm_grove')
 var grove_moisture = require('jsupm_grovemoisture');
 var UVSensor = require('jsupm_guvas12d');
 var grove_motion = require('jsupm_biss0001');
-var rotaryEncoder = require("jsupm_rotaryencoder");
+var rotary = require("jsupm_rotaryencoder");
 var LCD = require('jsupm_i2clcd');
 
 /************************************** test function **************************************/
@@ -74,8 +74,8 @@ For more information, please visit:
 */
 
 function uvLevel(req, res) {
-    var aioPin = req.query.aioPin //query for pin number 
-    var value = req.query.value //query for value of either AREF or voltage 
+    var aioPin = req.query.aioPin; //query for pin number 
+    var value = req.query.value; //query for value of either AREF or voltage 
 	var myUVSensor = new UVSensor.GUVAS12D(parseInt(aioPin)); //initialising sensor on specified pin 
 
 	// analog voltage, usually 3.3 or 5.0
@@ -110,7 +110,7 @@ https://software.intel.com/en-us/iot/hardware/sensors/biss0001-motion-sensor
 
 function pirMotion(req, res) {
     
-    var digitalPin = req.query.digitalPin //query for pin number 
+    var digitalPin = req.query.digitalPin; //query for pin number 
 	var myMotionObj = new grove_motion.BISS0001(parseInt(digitalPin)); //initialising sensor on specified pin 
 	var motionVal; 
     
@@ -120,7 +120,7 @@ function pirMotion(req, res) {
 		motionVal = "No moving objects detected";
     
   	res.send(motionVal);
-}
+};
 
 /************************************** readEncoder **************************************/
 /*
@@ -129,14 +129,14 @@ https://software.intel.com/en-us/iot/hardware/sensors/grove-rotary-encoder
 */
 
 function rotaryEncoder(req, res) {
-	var rotaryEncoder = require("jsupm_rotaryencoder");
 	// Instantiate a Grove Rotary Encoder, using signal pins D2 and D3
-	var myRotaryEncoder = new rotaryEncoder.RotaryEncoder(2,3);
+    var digitalPin1 = req.query.digitalPin1; //query for pin number 
+    var digitalPin2 = req.query.digitalPin2; //query for pin number 
+	var myRotaryEncoder = new rotary.RotaryEncoder(parseInt(digitalPin1),parseInt(digitalPin2));
+  	res.send(myRotaryEncoder.position().toString());
+    
+};
 
-	var output = "Position: " + myRotaryEncoder.position();
-
-  	res.send(output);
-}
 
 /************************************** readButtonLevel **************************************/
 /*
@@ -145,21 +145,10 @@ https://software.intel.com/en-us/iot/hardware/sensors/grove-button
 */
 
 function button(req, res) {
-    var digitalPin = req.query.digitalPin // query for pin number 
-    var output = req.query.output // query for button name 
+    var digitalPin = req.query.digitalPin; // query for pin number  
 	var button = new groveSensor.GroveButton(parseInt(digitalPin)); // initialising sensor on specified pin 
-    var nameOutput = button.name(); 
     var buttonVal = button.value().toString(); 
-    
-    if (output == 'name'){
-		res.send(nameOutput)
-	}
-	else if (output == 'value'){
-		res.send(buttonVal);
-	}
-	else {
-		res.send ("Sorry your input was not valid")
-	}
+    res.send(buttonVal);
 }
 
 /************************************** lightSensor **************************************/
@@ -194,7 +183,7 @@ module.exports.getTemperature = temperature;
 module.exports.getMoisture = moisture;
 module.exports.getUVLevel = uvLevel;
 module.exports.getPirMotion = pirMotion;
-module.exports.getrotaryEncoder = rotaryEncoder;
+module.exports.getRotaryEncoder = rotaryEncoder;
 module.exports.buttonLevel = button;
 module.exports.lightSensorVal = lightSensor;
 
