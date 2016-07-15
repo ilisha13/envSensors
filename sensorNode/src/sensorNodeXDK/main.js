@@ -21,6 +21,13 @@
 var express = require('express');
 var app = express();
 var sensorFunctions = require('./sensorFunctions');
+var actuatorFunctions = require('./actuatorFunctions');
+var roboticsFunction = require('./roboticsFunction');
+var cameraFunction = require('./cameraFunction');
+
+/************************************** setUp **************************************/
+
+//app.get('/', actuatorFunctions.displayIPAddress);
 
 /************************************** hello **************************************/
 /* API Name                : hello
@@ -33,27 +40,70 @@ app.get('/hello', sensorFunctions.hello);
 
 /*_____________________________________________________________________________________
   _____________________________________________________________________________________
-										                  Sensors  
+				                        Sensors  
   _____________________________________________________________________________________
   _____________________________________________________________________________________   */
 
-/********** Temperature *********/
+/************************************* Temperature *************************************/
 /* API Name                : getTemperature
- * Parameters required     : units (celsius or fahrenheit)
- * Example URL             : http://localhost:3000/getTemperature?units="celsius"
- * Expected Output         : "The temperature is 40
+ * Parameters required     : units (celsius or fahrenheit) & aioPin 
+ * Example URL             : http://localhost:3000/getTemperature?units="celsius"&aioPin=0
+ * Expected Output         : temperature in celsius or fahreheit
  */
 
 app.get('/getTemperature', sensorFunctions.getTemperature); 
 
-
-
+/************************************** Moisture **************************************/
+/* API Name                : getMoisture
+ * Parameters required     : aioPin 
+ * Example URL             : http://localhost:3000/getTemperature?units="celsius"&aioPin=0
+ * Expected Output         : 0-300       sensor in air or dry soil
+	                         300-600     sensor in humid soil
+	                         600+        sensor in wet soil or submerged in water
+ */
 app.get('/getMoisture', sensorFunctions.getMoisture); 
+
+/**************************************** UVLevel ****************************************/
+/* API Name                : getUVLevel
+ * Parameters required     : value (AREF or voltage) & aioPin 
+ * Example URL             : http://localhost:3000/getUVLevel?value=AREF&aioPin=0
+ * Expected Output         : AREF value or voltage value (higher means more UV) 
+ */
 app.get('/getUVLevel', sensorFunctions.getUVLevel);
+
+/*************************************** PirMotion ***************************************/
+/* API Name                : getPirMotion
+ * Parameters required     : digitalPin 
+ * Example URL             : http://localhost:3000/getPirMotion?digitalPin=4
+ * Expected Output         : Detecting moving object    or
+                             No moving objects detected
+ */
 app.get('/getPirMotion', sensorFunctions.getPirMotion);
-//app.get('/getrotaryEncoder', sensorFunctions.getrotaryEncoder);
-app.get('/buttonLevel', sensorFunctions.buttonLevel);
-app.get('/lightSensorLevel', sensorFunctions.lightSensorVal);
+
+/************************************* Rotary Encoder ************************************/
+/* API Name                : getRotaryEncoder
+ * Parameters required     : units (celsius or fahrenheit) & aioPin 
+ * Example URL             : http://localhost:3000/getTemperature?units="celsius"&aioPin=0
+ * Expected Output         : 32
+ */
+//app.get('/getRotaryEncoder', sensorFunctions.getrotaryEncoder);
+
+/**************************************** Button  ****************************************/
+/* API Name                : getButtonLevel
+ * Parameters required     : output (either or value of the button)digitalPin 
+ * Example URL             : http://localhost:3000/getButtonLevel?output=name&digitalPin=3
+                             http://localhost:3000/getButtonLevel?output=value&digitalPin=3
+ * Expected Output         : button or 1/0  
+ */
+app.get('/getButtonLevel', sensorFunctions.buttonLevel);
+
+/************************************* Light Sensor **************************************/
+/* API Name                : getLightSensorLevel
+ * Parameters required     : value (lux or raw) & aioPin 
+ * Example URL             : http://localhost:3000/getTemperature?value="lux"&aioPin=0
+ * Expected Output         : raw value or lux 
+ */
+app.get('/getLightLevel', sensorFunctions.lightSensorVal);
 
 /*_____________________________________________________________________________________
   _____________________________________________________________________________________
@@ -61,17 +111,50 @@ app.get('/lightSensorLevel', sensorFunctions.lightSensorVal);
   _____________________________________________________________________________________
   _____________________________________________________________________________________   */
 
-//app.get('/setLCDDisplay', sensorFunctions.setLCDDisplay);
-//app.get('/setRelayOn', sensorFunctions.setRelayOn);
-//app.get('/setRelayOff', sensorFunctions.setRelayOff);
-/*_____________________________________________________________________________________
+/************************************** LCDDisplay **************************************/
+/* API Name                : setLCDDisplay
+ * Parameters required     : display, R, G, B (colours)
+ * Example URL             : http://localhost:3000/setLCDDisplay?message=hello&R=255&G=0&B=0
+ * Expected Output         : "hello" on the LCD screen and red backlight
+ * Notes                   : LCD Display requires external power. On the Arduino sheild, 
+                             ensure the switch next to AIO Pin 0 is flipped to 5V 
+ */
+
+app.get('/setLCDDisplay', actuatorFunctions.setLCDDisplay);
+
+/***************************************** Relay *****************************************/
+/* API Name                : setRelayState
+ * Parameters required     : state (on or off) & digitalPin 
+ * Example URL             : http://localhost:3000/setRelayState?state=on&digitalPin=5
+ * Expected Output         : relay is turned on or off 
+ */
+app.get('/setRelayState', actuatorFunctions.setRelayState);
+
+/************************************** Buzzer **************************************/
+/* API Name                : setBuzzer
+ * Parameters required     : state(on or off) & digitalPin & tone (DO, RE, MI, FA, SOL, LA, TI, DO) & volume (0.0 to 1.0)
+ * Example URL             : http://localhost:3000/setBuzzer?state=on&digitalPin=6&tone=DO&volume=0.5
+ * Expected Output         : turns buzzer on or off
+ */
+app.get('/setBuzzer', actuatorFunctions.setBuzzer);
+/*____
+
+/************************************** Servo **************************************/
+/* API Name                : setServo
+ * Parameters required     : angle(between 0 and 180) & digitalPin 
+ * Example URL             : http://localhost:3000/setServo?angle=0&digitalPin=6
+ * Expected Output         : turns servo on or off
+ */
+app.get('/setServo', actuatorFunctions.setServo);
+/*__
+_________________________________________________________________________________
   _____________________________________________________________________________________
 										 Robotics  
   _____________________________________________________________________________________
   _____________________________________________________________________________________   */
 
-//app.get('/robotFunc1', sensorFunctions.robotFunc1);
-//app.get('/robotFunc2', sensorFunctions.robotFunc2);
+app.get('/robotFunc1', roboticsFunction.robotFunc1);
+app.get('/robotFunc2', roboticsFunction.robotFunc2);
 
 /*_____________________________________________________________________________________
   _____________________________________________________________________________________
@@ -79,8 +162,8 @@ app.get('/lightSensorLevel', sensorFunctions.lightSensorVal);
   _____________________________________________________________________________________
   _____________________________________________________________________________________   */
 
-//app.get('/cameraFunc1', sensorFunctions.cameraFunc1);
-//app.get('/cameraFunc2', sensorFunctions.cameraFunc2);
+app.get('/cameraFunc1', cameraFunction.cameraFunc1);
+app.get('/cameraFunc2', cameraFunction.cameraFunc2);
 
 /************************************** listen **************************************/
 

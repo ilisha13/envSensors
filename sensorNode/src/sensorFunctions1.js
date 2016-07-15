@@ -36,7 +36,8 @@ function temperature(req, res) {
 	// Create the temperature sensor object using AIO pin 0
 	// If you want to change the pin number, modify this line.
 	var units = req.query.units
-	var temp = new groveSensor.GroveTemp(0);
+	var aioPin = req.query.aioPin
+	var temp = new groveSensor.GroveTemp(aioPin);
 	var celsius = temp.value();
 	var fahrenheit = celsius * 9.0/5.0 + 32.0;
 	var outputC = "The temperature is " + celsius;
