@@ -104,6 +104,15 @@ app.get('/getButtonLevel', sensorFunctions.buttonLevel);
  */
 app.get('/getLightLevel', sensorFunctions.lightSensorVal);
 
+/************************************* Flow Meter **************************************/
+/* API Name                : getFlowRate
+ * Parameters required     : digitalPin 
+ * Example URL             : http://localhost:3000/getFlowRate?digitalPin=3
+ * Expected Output         : flow rate in litres per minute  
+ */
+
+app.get('/getFlowRate', sensorFunctions.getFlowRate);
+
 /*_____________________________________________________________________________________
   _____________________________________________________________________________________
 										 Actuators  

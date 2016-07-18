@@ -1,6 +1,112 @@
 import pycurl
 from io import BytesIO
 
+'''
+________________________________________________________________________________________
+________________________________________________________________________________________
+                                    
+                                    API Cheat sheet
+_________________________________________________________________________________________
+_________________________________________________________________________________________
+
+************************************* Temperature *************************************
+ * API Name                : getTemperature
+ * Pin type                : AIO
+ * Return type             : float
+ * Parameters required     : ipAddress, port, , tempPin, units (celsius or fahreheit)
+ * Expected Output         : temperature in celsius or fahreheit as integer 
+ *
+
+************************************** Moisture **************************************
+ * API Name                : getMoisture
+ * Pin type                : AIO
+ * Parameters required     : ipAddress, port, moisturePin 
+ * Return type             : float
+ * Expected Output         : 0-300       sensor in air or dry soil
+	                         300-600     sensor in humid soil
+	                         600+        sensor in wet soil or submerged in water
+
+************************************** getUVLevel **************************************
+ * API Name                : getUVLevel
+ * Pin type                : AIO
+ * Parameters required     : ipAddress, port, uvPin, uvValue (AREF or voltage)
+ * Return type             : float
+ * Expected Output         : UV value in AREF or voltage 
+ *
+
+ ************************************** getPIRMotion **************************************
+ * API Name                : getPIRMotion
+ * Pin type                : digital
+ * Parameters required     : ipAddress, port, pirMotionPin 
+ * Return type             : boolean
+ * Expected Output         : True or false based on if object is moving or not 
+ *
+
+ ************************************** getButtonLevel **************************************
+ * API Name                : getPIRMotion
+ * Pin type                : digital
+ * Parameters required     : ipAddress, port, buttonPin 
+ * Return type             : boolean
+ * Expected Output         : True or false based on if object is button is pressed or not 
+ *
+
+************************************** getLightLevel **************************************
+ * API Name                : getLightLevel
+ * Pin type                : AIO
+ * Parameters required     : ipAddress, port, lightPin, lightUnits (lux or raw)
+ * Return type             : float
+ * Expected Output         : returns either lux or raw light values  
+ *
+
+ ************************************** setLCDDisplay **************************************
+ * API Name                : setLCDDisplay
+ * Pin type                : I2C
+ * Parameters required     : ipAddress, port, display, R, G, B
+ * Return type             : string
+ * Expected Output         : prints "LCD display set"
+ *
+
+ ************************************** setRelayState **************************************
+ * API Name                : setRelayState
+ * Pin type                : I2C
+ * Parameters required     : ipAddress, port, relayPin, state (on or off)
+ * Return type             : string
+ * Expected Output         : prints "Relay is on" or "Relay is off"
+ *
+
+ ************************************** setBuzzer **************************************
+ * API Name                : setBuzzer
+ * Pin type                : digital
+ * Parameters required     : state(on or off) & buzzerPin & buzzerNote (DO, RE, MI, FA, SOL, LA, TI, DO) & volume (0.0 to 1.0)
+ * Return type             : string
+ * Expected Output         : prints "Buzzer is on" or "Buzzer is off"
+ *
+
+ ************************************** setServo **************************************
+ * API Name                : setServo
+ * Pin type                : digital
+ * Parameters required     : servoPin & angle (between 0 and 180)
+ * Return type             : string
+ * Expected Output         : prints "Buzzer is on" or "Buzzer is off"
+ *
+
+ ************************************** getFlowRate **************************************
+ * API Name                : getFlowRate
+ * Pin type                : digital
+ * Parameters required     : flowMeterPin
+ * Return type             : integer
+ * Expected Output         : flow rate in litres per minute 
+ *
+
+ ************************************** getRotary **************************************
+ * API Name                : getRotary
+ * Pin type                : digital
+ * Parameters required     : rotaryPin1, rotaryPin2 (on pin D4 for example, rotaryPin1 = 4, rotaryPin2 = 5)
+ * Return type             : float
+ * Expected Output         : rotary value
+ *
+ '''
+
 settings = {
 	'ipAddress' : '165.106.132.27',
 	'port' : '3000',
@@ -20,6 +126,7 @@ settings = {
 	'servoPin' : '6', # digital pin 6
 	'rotaryPin1' : '4', # one part of the digital pin in D4
 	'rotaryPin2' : '5', # one part of the digital pin in D4
+	'flowMeterPin': '8', # digital pin 8
 	'R' : '0', # LCD default colour
 	'G' : '0', # LCD default colour
 	'B' : '0', # LCD default colour
@@ -323,6 +430,34 @@ def setServo(angle, ipAddress=None, port=None, servoPin=None):
 	# such as standard output.
 	bodyDecoded = body.decode('iso-8859-1')
 	return(bodyDecoded) 
+
+'''
+************************************** getFlowRate **************************************
+ * API Name                : getFlowRate
+ * Pin type                : digital
+ * Parameters required     : flowMeterPin
+ * Return type             : integer
+ * Expected Output         : flow rate in litres per minute 
+ *
+ '''
+def setBuzzer(ipAddress=None, port=None, flowMeterPin=None):
+	# if parameters are not specified, use default 
+	ipAddress = ipAddress if (ipAddress is not None) else settings['ipAddress']
+	port = port if (port is not None) else settings['port']
+	flowMeterPin = flowMeterPin if (flowMeterPin is not None) else settings['flowMeterPin']
+
+	buffer = BytesIO()
+	c = pycurl.Curl()
+	c.setopt(c.URL, ipAddress+ ':' + port +'/getFlowRate?digitalPin=' + flowMeterPin)
+	c.setopt(c.WRITEDATA, buffer)
+	c.perform()
+	c.close()
+	body = buffer.getvalue()
+	# Body is a byte string.
+	# We have to know the encoding in order to print it to a text file
+	# such as standard output.
+	bodyDecoded = int(body.decode('iso-8859-1'))
+	return bodyDecoded
 
 '''
 ************************************** getRotary **************************************

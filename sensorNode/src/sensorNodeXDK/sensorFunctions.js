@@ -16,6 +16,7 @@ var UVSensor = require('jsupm_guvas12d');
 var grove_motion = require('jsupm_biss0001');
 var rotary = require("jsupm_rotaryencoder");
 var LCD = require('jsupm_i2clcd');
+var waterFlow_lib = require('jsupm_grovewfs');
 
 /************************************** test function **************************************/
 
@@ -129,9 +130,9 @@ https://software.intel.com/en-us/iot/hardware/sensors/grove-rotary-encoder
 */
 
 function rotaryEncoder(req, res) {
-	// Instantiate a Grove Rotary Encoder, using signal pins D2 and D3
     var digitalPin1 = req.query.digitalPin1; //query for pin number 
-    var digitalPin2 = req.query.digitalPin2; //query for pin number 
+    var digitalPin2 = req.query.digitalPin2; //query for pin number
+    console.log(digitalPin1, digitalPin2);
 	var myRotaryEncoder = new rotary.RotaryEncoder(parseInt(digitalPin1),parseInt(digitalPin2));
   	res.send(myRotaryEncoder.position().toString());
     
@@ -176,6 +177,23 @@ function lightSensor(req, res) {
 	}
 }
 
+/************************************** flowMeter **************************************/
+/*
+For more information, please visit: 
+https://software.intel.com/en-us/iot/hardware/sensors/grove-water-flow-sensor
+*/
+
+function flowMeter(req, res) {
+    var digitalPin = req.query.digitalPin //query for pin number 
+    var value = req.query.value; // query for value (either raw or lux)
+    var myWaterFlow_obj = new waterFlow_lib.GroveWFS(digitalPin);
+    myWaterFlow_obj.clearFlowCounter();
+    myWaterFlow_obj.startFlowCounter();
+    var fr = myWaterFlow_obj.flowRate().toString();
+    res.send(fr); 
+}
+
+
 /************************************** initialise module functions **************************************/
 
 module.exports.hello = helloTest;
@@ -186,6 +204,7 @@ module.exports.getPirMotion = pirMotion;
 module.exports.getRotaryEncoder = rotaryEncoder;
 module.exports.buttonLevel = button;
 module.exports.lightSensorVal = lightSensor;
+module.exports.getFlowRate = flowMeter;
 
 
 

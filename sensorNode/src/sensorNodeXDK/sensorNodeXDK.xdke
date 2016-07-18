@@ -24,8 +24,8 @@
         "name": "icon.png"
       },
       "main.js": {
-        "previousModTime": 1468609588121,
-        "modified": 1468609588121,
+        "previousModTime": 1468858392898,
+        "modified": 1468858392898,
         "seen": true,
         "name": "main.js"
       },
@@ -36,8 +36,8 @@
         "name": "package.json"
       },
       "sensorFunctions.js": {
-        "previousModTime": 1468609839643,
-        "modified": 1468609839643,
+        "previousModTime": 1468858390793,
+        "modified": 1468858390793,
         "seen": true,
         "name": "sensorFunctions.js"
       },
@@ -48,8 +48,8 @@
         "name": "sensorNodeXDK.xdk"
       },
       "sensorNodeXDK.xdke": {
-        "previousModTime": 1468609810930,
-        "modified": 1468609810930,
+        "previousModTime": 1468858392447,
+        "modified": 1468858392447,
         "seen": true,
         "name": "sensorNodeXDK.xdke"
       },
@@ -85,8 +85,11 @@
       }
     },
     "boardFileStatus": {
+      "main.js": {
+        "previousModTime": 1468858726604
+      },
       "sensorFunctions.js": {
-        "previousModTime": 1468609840688
+        "previousModTime": 1468858726604
       }
     }
   }
