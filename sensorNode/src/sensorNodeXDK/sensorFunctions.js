@@ -9,7 +9,7 @@
  *
  * Code taken and modified from https://software.intel.com/en-us/iot/hardware/sensors/
  */
-
+var mraa = require('mraa'); //require mraa
 var groveSensor = require('jsupm_grove')
 var grove_moisture = require('jsupm_grovemoisture');
 var UVSensor = require('jsupm_guvas12d');
@@ -183,15 +183,50 @@ For more information, please visit:
 https://software.intel.com/en-us/iot/hardware/sensors/grove-water-flow-sensor
 */
 
+
+/*
 function flowMeter(req, res) {
     var digitalPin = req.query.digitalPin //query for pin number 
-    var value = req.query.value; // query for value (either raw or lux)
-    var myWaterFlow_obj = new waterFlow_lib.GroveWFS(digitalPin);
-    myWaterFlow_obj.clearFlowCounter();
-    myWaterFlow_obj.startFlowCounter();
+    var myWaterFlow_obj = new waterFlow_lib.GroveWFS(parseInt(digitalPin));
+    //myWaterFlow_obj.clearFlowCounter();
+    //myWaterFlow_obj.startFlowCounter();
     var fr = myWaterFlow_obj.flowRate().toString();
     res.send(fr); 
 }
+*/
+
+function flowMeter(req,res){
+    var waterFlow_lib = require('jsupm_grovewfs');
+    var digitalPin = req.query.digitalPin //query for pin number 
+// Instantiate a Grove Water Flow Sensor on digital pin D2
+var myWaterFlow_obj = new waterFlow_lib.GroveWFS(parseInt(digitalPin));
+
+// set the flow counter to 0 and start counting
+myWaterFlow_obj.clearFlowCounter();
+myWaterFlow_obj.startFlowCounter();
+
+
+var millis, flowCount, fr;
+var myInterval = setInterval(function()
+{
+	// we grab these (millis and flowCount) just for display
+	// purposes in this example
+	millis = myWaterFlow_obj.getMillis();
+	flowCount = myWaterFlow_obj.flowCounter();
+
+	fr = myWaterFlow_obj.flowRate();
+
+	// output milliseconds passed, flow count, and computed flow rate
+	outputStr = "Millis: " + millis + " Flow Count: " + flowCount +
+	" Flow Rate: " + fr + " LPM";
+	console.log(outputStr);
+
+	// best to gather data for at least one second for reasonable
+	// results.
+}, 2000);
+    
+    res.send("flow started");
+};
 
 
 /************************************** initialise module functions **************************************/

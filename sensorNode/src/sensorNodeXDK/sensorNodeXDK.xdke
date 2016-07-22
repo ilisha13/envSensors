@@ -24,8 +24,8 @@
         "name": "icon.png"
       },
       "main.js": {
-        "previousModTime": 1468858392898,
-        "modified": 1468858392898,
+        "previousModTime": 1468956819013,
+        "modified": 1468956819013,
         "seen": true,
         "name": "main.js"
       },
@@ -36,8 +36,8 @@
         "name": "package.json"
       },
       "sensorFunctions.js": {
-        "previousModTime": 1468858390793,
-        "modified": 1468858390793,
+        "previousModTime": 1468957115528,
+        "modified": 1468957115528,
         "seen": true,
         "name": "sensorFunctions.js"
       },
@@ -48,8 +48,8 @@
         "name": "sensorNodeXDK.xdk"
       },
       "sensorNodeXDK.xdke": {
-        "previousModTime": 1468858392447,
-        "modified": 1468858392447,
+        "previousModTime": 1468957116118,
+        "modified": 1468957116118,
         "seen": true,
         "name": "sensorNodeXDK.xdke"
       },
@@ -66,8 +66,8 @@
         "name": "xdk/project-info.json"
       },
       "actuatorFunctions.js": {
-        "previousModTime": 1468602708369,
-        "modified": 1468602708369,
+        "previousModTime": 1468954617346,
+        "modified": 1468954617346,
         "seen": true,
         "name": "actuatorFunctions.js"
       },
@@ -84,13 +84,6 @@
         "name": "roboticsFunction.js"
       }
     },
-    "boardFileStatus": {
-      "main.js": {
-        "previousModTime": 1468858726604
-      },
-      "sensorFunctions.js": {
-        "previousModTime": 1468858726604
-      }
-    }
+    "boardFileStatus": {}
   }
 }
